@@ -6,13 +6,13 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 //ROTAS
-var indexRoute = require('./routes/index-route');
-var productRoute = require('./routes/products-route');
-const customerRoute = require('./routes/customer-route');
+//var indexRoute = require('./routes/index-route');
+const productRoute = require('../src/route/product-route');
+const userRoute = require('../src/route/user-route');
 
 //var config = require('./config')
 //PERSISTÊNCIA
-mongoose.connect('mongodb://localhost/bdCrud');
+mongoose.connect('mongodb+srv://ProFinder:profinder@cluster0-y6z2e.azure.mongodb.net/test');
 //mongoose.connect(config.connectionString);
 
 //Configurar a app para usar o body-parser
@@ -23,11 +23,12 @@ app.use(bodyParser.json());
 var port = process.env.port || 3000;
 
 //Dedfinindo uma rota padrão para as minhas apis
-app.use('/api', indexRoute);
+
 //rotas para produtos
 app.use('/products', productRoute);
+app.use('/user', userRoute)
 //rotas para customer
-app.use('/customers', customerRoute);
+
 
 app.listen(port);
 console.log("API up and running! on port " + port);

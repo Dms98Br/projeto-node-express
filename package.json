@@ -14,7 +14,8 @@
     "body-parser": "~1.18.2",
     "express": "~4.16.3",
     "mongoose": "~5.0.16",
-    "request": "~2.85.0"
+    "request": "~2.85.0",
+    "md5": "^2.2.1"
   },
   "author": "Fabio Navarro",
   "license": "ISC"
