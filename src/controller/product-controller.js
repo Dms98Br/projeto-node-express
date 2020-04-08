@@ -5,6 +5,8 @@ const repository = require('../repository/product-repository');
 exports.post = async (req, res, next) => {
     try {
         var data = await repository.create(req.body);
+        //Salvar um log em outro banco de dados ou em um array
+        novoArray.appemd("data do dia")//Exemplo
         console.log(data)
         res.status(201).send({ message: 'Produto criado com sucesso' });
     } catch (e) {
@@ -17,6 +19,7 @@ exports.post = async (req, res, next) => {
 exports.get = async (req, res) => {
     try {
         var data = await repository.get();
+        
         res.status(200).send(data)
     } catch (e) {
         res.status(500).send({
@@ -28,7 +31,7 @@ exports.get = async (req, res) => {
 //FindById
 exports.getById = async (req, res) => {
    try {
-       var data = await repository.getById(req.params.id);
+       var data = await repository.getById(req.params.id);       
        res.status(200).send(data);
    } catch (e) {
        res.status(500).send({
