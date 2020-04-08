@@ -20,7 +20,7 @@ exports.update = async(_id, data) => {
         $set:{
             nome: data.nome,
             preco: data.preco,
-            descricao: data.descricao
+            descricao: data.descricao,
         }
     })
 }

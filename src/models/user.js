@@ -1,11 +1,34 @@
 
 var mongoose = require('mongoose');
+var bcryptjs = require('bcryptjs');
 var Schema = mongoose.Schema;
 
-var produtoSchema = new Schema({
-    nome: String,
-    email: String,
-    password: String
+var userSchema = new Schema({
+    nome: {
+        type: String,
+        required: true,
+    },
+    email:  {
+        type: String,
+        unique: true,
+        required: true,
+        lowercase: true
+    },
+    password: {
+        type: String,
+        required: true,
+        select: false
+    },
+    createdAt:{
+        type: Date,
+        default: Date.now
+    }
 });
 
-module.exports = mongoose.model('User', produtoSchema);
+userSchema.pre('save', async function(next){
+    const hash = await bcryptjs.hash(this.password, 10);
+    this.password = hash;
+    next();
+});
+
+module.exports = mongoose.model('User', userSchema);

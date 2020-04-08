@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 //var indexRoute = require('./routes/index-route');
 const productRoute = require('../src/route/product-route');
 const userRoute = require('../src/route/user-route');
+const projectRouter = require('../src/route/project-route')
 
 //var config = require('./config')
 
@@ -27,7 +28,8 @@ var port = process.env.port || 3000;
 
 //rotas para produtos
 app.use('/products', productRoute);
-app.use('/user', userRoute)
+app.use('/user', userRoute);
+app.use('/project', projectRouter);
 //rotas para customer
 
 

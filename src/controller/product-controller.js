@@ -3,12 +3,13 @@ const Produto = require("../models/product");
 const repository = require('../repository/product-repository');
 //Post
 exports.post = async (req, res, next) => {
-    try {
-        var data = await repository.create(req.body);
+    var data = await repository.create(req.body);
+    
+    try {        
         //Salvar um log em outro banco de dados ou em um array
-        novoArray.appemd("data do dia")//Exemplo
-        console.log(data)
+        //novoArray.appemd("data do dia")//Exemplo
         res.status(201).send({ message: 'Produto criado com sucesso' });
+        
     } catch (e) {
         res.status(400).send({ message: 'Erro ao cadastra produto ',
         error: e
