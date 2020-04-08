@@ -2,9 +2,9 @@
   "name": "nodejscrudapi",
   "version": "1.0.0",
   "description": "Aplicação CRUD API com Express e Nodejs",
-  "main": "server.js",
+  "main": "./bin/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,9 @@
     "request": "~2.85.0",
     "md5": "^2.2.1"
   },
-  "author": "Fabio Navarro",
-  "license": "ISC"
+  "author": "Daniel Moya",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
 }

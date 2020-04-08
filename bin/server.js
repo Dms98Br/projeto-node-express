@@ -11,6 +11,7 @@ const productRoute = require('../src/route/product-route');
 const userRoute = require('../src/route/user-route');
 
 //var config = require('./config')
+
 //PERSISTÊNCIA
 mongoose.connect('mongodb+srv://ProFinder:profinder@cluster0-y6z2e.azure.mongodb.net/test');
 //mongoose.connect(config.connectionString);

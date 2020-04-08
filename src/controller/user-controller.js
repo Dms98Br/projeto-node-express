@@ -3,15 +3,15 @@ const User = require("../models/user")
 exports.post = ("/", function (req, res){
     var user = new User();
     user.nome = req.body.nome;
-    user.email = req.body.preco;
-    user.password = req.body.descricao;
+    user.email = req.body.email;
+    user.password = req.body.password;
 
     user.save(function (error) {
         if (error)
             res.send("Erro ao tentar salvar um user" + error);
 
         res.status(201).json({ message: 'user inserido com sucesso' });
-
+        console.log(user)
     });
 
 });
