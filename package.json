@@ -19,7 +19,7 @@
     "mongoose": "~5.0.16",
     "request": "~2.85.0"
   },
-  "author": "Daniel Moya",
+  "author": "Daniel Moya, Natália Silva",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.2"

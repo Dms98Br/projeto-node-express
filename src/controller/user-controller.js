@@ -12,13 +12,37 @@ function generateToken(params = {}){
     })
 }
 function gerarJson(params = {}){
-    var dados = {};
-    dados.table = [];
-    dados.table.push(params.email,params.password)
-    fs.writeFile("input.json", JSON.stringify(dados), function (e) {
-        if (e) throw e;
-        console.log('complete');
-    })
+    
+    fs.readFile('input.json', 'utf8', function(err, data) {
+        if (err) {
+                var dados = [];                
+                dados.push({email: params.email , password: params.password})    
+                fs.writeFile("input.json", JSON.stringify(dados), function (e) {
+                console.log('complete');
+                })
+            return
+         }
+
+            let leaderboard;
+            try {
+                leaderboard = JSON.parse(data);
+            } catch(err) {
+                console.log("Error parsing input JSON", err);
+                return;
+            }
+
+            const user = params.email;
+            const password = params.password;
+            leaderboard.push({email: params.email , password: params.password});
+
+            // now write the data back to the file
+            fs.writeFile('input.json', JSON.stringify(leaderboard), 'utf8', function() {
+                if (err) {
+                    console.log(err);
+                    return;
+                }                
+            });
+        });    
 }
 //Post
 exports.post = async (req, res, next) => {
@@ -30,6 +54,7 @@ exports.post = async (req, res, next) => {
         else
             var user = await repository.create(req.body)            
             res.status(201).send({ message: 'Usuário criado com sucesso' });
+            gerarJson(user);
     } catch (e) {
         res.status(400).send({ message: 'Erro ao cadastra usuário'});           
     }
@@ -37,7 +62,7 @@ exports.post = async (req, res, next) => {
 //Login
 exports.login = async (req, res, next) => {
     try {
-        const{ email, password} = req.body;        
+        const{ email, password } = req.body;        
         const user = await User.findOne({ email }).select('+password');
         
         if(!user)
@@ -100,19 +125,24 @@ exports.getById = async (req, res) => {
 exports.update = async (req, res) => {
     try {
         var data = await repository.update(req.params.id, req.body)
-        res.status(201).send({ message: 'Produto foi atualizado'})
+        res.status(201).send({ message: 'Usuário foi atualizado'})
     } catch (e) {
-        re.status(400).send({ message: 'Erro ao atualizar',
+        re.status(400).send({ message: 'Erro ao atualizar usuário',
         error: e})
     }
 };
 //DELETE
 exports.del = async(req, res) => {
-    try {
+    try {        
+        if(! await User.findOne({_id: req.params.id}))
+            {
+                res.status(400).send({ message: 'Usário não encontrado'})
+                return false
+            }
         var data = await repository.del(req.params.id)
-        res.status(200).send({ message: 'Produto deletado com sucesso' })
+        res.status(200).send({ message: 'Usuário deletado com sucesso' })
     } catch (e) {
-        res.status(400).send({ message: 'Erro ao remover produto',
+        res.status(400).send({ message: 'Erro ao remover usuário',
         error: e
         })
     }

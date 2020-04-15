@@ -5,9 +5,9 @@ exports.get = async () => {
     const res = await User.find();
     return res;
 }
-exports.getById = async () => {
+exports.getById = async (_id) => {
     const res = await User
-    .find({});
+    .findById(_id);
     return res;
 }
 exports.create = async(body) =>{
