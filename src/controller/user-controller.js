@@ -4,10 +4,20 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../config/auth')
 const repository = require('../repository/user-repository');
+var fs = require("fs");
 
 function generateToken(params = {}){
     return jwt.sign(params, authConfig.secret, {
         expiresIn: 86400
+    })
+}
+function gerarJson(params = {}){
+    var dados = {};
+    dados.table = [];
+    dados.table.push(params.email,params.password)
+    fs.writeFile("input.json", JSON.stringify(dados), function (e) {
+        if (e) throw e;
+        console.log('complete');
     })
 }
 //Post
@@ -24,6 +34,24 @@ exports.post = async (req, res, next) => {
         res.status(400).send({ message: 'Erro ao cadastra usuário'});           
     }
 };
+//Login
+exports.login = async (req, res, next) => {
+    try {
+        const{ email, password} = req.body;        
+        const user = await User.findOne({ email }).select('+password');
+        
+        if(!user)
+            return res.status(400).send({ error: 'Email inválido' });           
+        if(!await bcrypt.compare(password, user.password))
+            return res.status(400).send({ error: 'Senha inválida' });
+        
+        else            
+            res.status(201).send({ message: 'Login efetuado com sucesso' });
+            gerarJson(user);
+    } catch (e) {
+        res.status(400).send({ message: 'Erro'});
+    }
+}
 //Authenticate
 exports.Authenticate = async(req, res) => {
     const{ email, password} = req.body;
@@ -45,7 +73,10 @@ exports.Authenticate = async(req, res) => {
 exports.get = async (req, res) => {
     try {
         var data = await repository.get();
-        res.status(200).send(data)
+        res.status(200).send({
+            data: data,
+            count: data.length
+        });        
     } catch (e) {
         res.status(500).send({
             message: 'Falha ao processar sua requisição', 

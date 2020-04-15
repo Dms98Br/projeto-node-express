@@ -28,3 +28,7 @@ exports.del = async(_id) => {
     await User
     .findByIdAndRemove(_id)
 }
+exports.login = async() => {
+    const res = await User.find();
+    return;
+}

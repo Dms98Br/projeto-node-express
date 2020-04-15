@@ -2,7 +2,6 @@ const express = require('express');
 var router = express = express.Router();
 
 router.use(function (req, res, next){
-    console.log("terste")
     next();
 });
 
