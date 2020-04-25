@@ -6,11 +6,15 @@ const authConfig = require('../config/auth')
 const repository = require('../repository/user-repository');
 var fs = require("fs");
 
+//#region Gerar token
 function generateToken(params = {}){
     return jwt.sign(params, authConfig.secret, {
         expiresIn: 86400
     })
 }
+//#endregion
+
+//#region Gerar Json
 function gerarJson(params = {}){
     
     fs.readFile('input.json', 'utf8', function(err, data) {
@@ -44,6 +48,9 @@ function gerarJson(params = {}){
             });
         });    
 }
+//#endregion
+
+//#region Post
 //Post
 exports.post = async (req, res, next) => {
     
@@ -59,7 +66,10 @@ exports.post = async (req, res, next) => {
         res.status(400).send({ message: 'Erro ao cadastra usuário'});           
     }
 };
-//Login
+//#endregion
+
+//#region Login
+
 exports.login = async (req, res, next) => {
     try {
         const{ email, password } = req.body;        
@@ -77,7 +87,10 @@ exports.login = async (req, res, next) => {
         res.status(400).send({ message: 'Erro'});
     }
 }
-//Authenticate
+//#endregion
+
+//#region Auntenticação
+
 exports.Authenticate = async(req, res) => {
     const{ email, password} = req.body;
     
@@ -94,6 +107,9 @@ exports.Authenticate = async(req, res) => {
         token: generateToken({ id: user.id })
     });
 };
+//#endregion
+
+//#region Get
 //Get All
 exports.get = async (req, res) => {
     try {
@@ -121,7 +137,10 @@ exports.getById = async (req, res) => {
        })
    }
 };
-//PUT
+//#endregion
+
+//#region Update
+
 exports.update = async (req, res) => {
     try {
         var data = await repository.update(req.params.id, req.body)
@@ -131,7 +150,10 @@ exports.update = async (req, res) => {
         error: e})
     }
 };
-//DELETE
+
+//#endregion
+
+//#region Delete
 exports.del = async(req, res) => {
     try {        
         if(! await User.findOne({_id: req.params.id}))
@@ -147,3 +169,4 @@ exports.del = async(req, res) => {
         })
     }
 };
+//#endregion

@@ -1,14 +1,31 @@
 
 const Produto = require("../models/product");
 const repository = require('../repository/product-repository');
+var savereq = []
+
+//#region POST
 //Post
 exports.post = async (req, res, next) => {
-    var data = await repository.create(req.body);
-    
     try {        
         //Salvar um log em outro banco de dados ou em um array
         //novoArray.appemd("data do dia")//Exemplo
+        var data = await repository.create(req.body);        
+        let params = req.body;
+
         res.status(201).send({ message: 'Produto criado com sucesso' });
+        savereq.push([`${req.method}, ${params.nome}, ${params.preco} e ${params.descricao}`]);
+        console.log(savereq);
+        // savereq.push({
+        //     method: req.method,
+        //     nome: params.nome,
+        //     preco: params.preco,
+        //     descricao: params.descricao
+        // })
+        
+        // console.log("Metodo " + req.method);
+        // console.log("Nome " + req.body.nome);
+        // console.log("Preço " + req.body.preco);
+        // console.log("Descricao " + req.body.descricao);            
         
     } catch (e) {
         res.status(400).send({ message: 'Erro ao cadastra produto ',
@@ -16,12 +33,19 @@ exports.post = async (req, res, next) => {
         })
     }
 };
-//Get All
+//#endregion
+
+//#region Get
 exports.get = async (req, res) => {
     try {
         var data = await repository.get();
+            
+        res.status(200).send({
+            data: data,
+            count: data.length
+        });
+        console.log(req.params);
         
-        res.status(200).send(data)
     } catch (e) {
         res.status(500).send({
             message: 'Falha ao processar sua requisição', 
@@ -29,6 +53,7 @@ exports.get = async (req, res) => {
         });
     };
 };
+
 //FindById
 exports.getById = async (req, res) => {
    try {
@@ -41,6 +66,9 @@ exports.getById = async (req, res) => {
        })
    }
 };
+//#endregion
+
+//#region 
 //PUT
 exports.update = async (req, res) => {
     try {
@@ -51,6 +79,9 @@ exports.update = async (req, res) => {
         error: e})
     }
 };
+//#endregion
+
+//#region 
 //DELETE
 exports.del = async(req, res) => {
     try {
@@ -62,3 +93,4 @@ exports.del = async(req, res) => {
         })
     }
 };
+//#endregion

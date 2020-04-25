@@ -25,10 +25,12 @@ var userSchema = new Schema({
     }
 });
 
+//#region Encriptar senha
 userSchema.pre('save', async function(next){
     const hash = await bcryptjs.hash(this.password, 10);
     this.password = hash;
     next();
 });
+//#endregion
 
 module.exports = mongoose.model('User', userSchema);
