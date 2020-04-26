@@ -17,6 +17,9 @@
     "file-system": "^2.2.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "~5.0.16",
+    "nodemailer": "^6.4.6",
+    "nodemailer-express-handlebars": "^4.0.0",
+    "path": "^0.12.7",
     "request": "~2.85.0"
   },
   "author": "Daniel Moya, Natália Silva",

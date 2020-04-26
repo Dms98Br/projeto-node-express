@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 const productRoute = require('../src/route/product-route');
 const userRoute = require('../src/route/user-route');
 const projectRouter = require('../src/route/project-route')
+//const index = require('../src/app/controller/index')(app)
 
 //var config = require('./config')
 
@@ -27,12 +28,13 @@ var port = process.env.port || 3000;
 //Dedfinindo uma rota padrão para as minhas apis
 
 //rotas para produtos
+
 app.use('/products', productRoute);
 app.use('/user', userRoute);
 app.use('/project', projectRouter);
+// require('../src/app/controller/index')(app)
+
 //rotas para customer
-
-
 app.listen(port);
 console.log("API up and running! on port " + port);
 
