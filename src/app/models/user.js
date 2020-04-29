@@ -27,10 +27,15 @@ var userSchema = new Schema({
         type: Date,
         select: false
     },
+    isDeleted:{
+        type: Boolean,
+        default:false
+    },
     createdAt:{
         type: Date,
         default: Date.now
     }
+    
 });
 
 //#region Encriptar senha

@@ -1,5 +1,6 @@
 const User = require('../app/models/user');
 const mongoose = require('mongoose');
+var bcryptjs = require('bcryptjs');
 
 exports.get = async () => {
     const res = await User.find();
@@ -19,8 +20,8 @@ exports.update = async(_id, data) => {
     .findByIdAndUpdate(_id,{
         $set:{
             nome: data.nome,
-            email: data.email,
-            password: data.password
+            email: data.email,           
+            password: data.password = await bcryptjs.hash(data.password, 10)
         }
     })
 }
