@@ -128,7 +128,10 @@ exports.post = async (req, res, next) => {
             return res.status(400).send({ message: 'E-mail já cadastrado '})
         else
             var user = await repository.create(req.body)            
-            res.status(201).send({ message: 'Usuário criado com sucesso' });
+            res.status(201).send({
+                message: 'Usuário criado com sucesso',
+                
+            });
             gerarJson(user);
     } catch (e) {
         res.status(400).send({ message: 'Erro ao cadastra usuário'});           
