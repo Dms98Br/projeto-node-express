@@ -148,6 +148,7 @@ exports.login = async (req, res, next) => {
         
         if(!user)
             return res.status(400).send({ error: 'Email inválido' });           
+        
         if(!await bcrypt.compare(password, user.password))
             return res.status(400).send({ error: 'Senha inválida' });
         
@@ -213,12 +214,14 @@ exports.getById = async (req, res) => {
 //#region Update
 
 exports.update = async (req, res) => {
-    try {
+    try {        
         var data = await repository.update(req.params.id, req.body)
+        const hash = await bcrypt.hash(req.body.password,10)
+        console.log(hash);        
         res.status(201).send({ message: 'Usuário foi atualizado'})
     } catch (e) {
-        re.status(400).send({ message: 'Erro ao atualizar usuário',
-        error: e})
+        res.status(400).send({ message: 'Erro ao atualizar usuário',
+        error: e})                      
     }
 };
 
